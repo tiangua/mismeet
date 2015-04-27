@@ -16,7 +16,6 @@ use Openapi\Lib\Model\Openapi\Lib\Model;
 class InitApp extends PHPUnit_Framework_TestCase {
 	/**
 	 * this method use for create api with one string param
-	 * create
 	 */
 	public function doInit() {
 		// init app category
@@ -24,6 +23,7 @@ class InitApp extends PHPUnit_Framework_TestCase {
 		$apicat = new ApiCat ();
 		$apicat->setName ( "MisMeet" );
 		
+		echo "create api cat";
 		if ($apicat->create ()) {
 			$api_cat_id = $apicat->getId ();
 		} else {
@@ -44,6 +44,7 @@ class InitApp extends PHPUnit_Framework_TestCase {
 		$theapi->setServiceMethod ( "operate" );	//
 		$theapi->setSessionOption ( "ignore" );
 		
+		echo "create api";
 		if ($theapi->create ()) {
 			$api_id = $theapi->getId();
 		} else {
@@ -75,7 +76,7 @@ class InitApp extends PHPUnit_Framework_TestCase {
 		$methodarg->setArgSrc("api_param");
 		$methodarg->setParamId($param_id);
 		
-		$this->assertFalse($methodarg->create());
+		$methodarg->create();
 		
 		// init acl
 		$acl = new Acl();
@@ -85,6 +86,6 @@ class InitApp extends PHPUnit_Framework_TestCase {
 		$acl->setIpEnd(4278124286);
 		$acl->setAllow(1);
 		
-		$this->assertFalse($acl->create());
+		$acl->create();
 	}
 }
