@@ -76,5 +76,15 @@ class InitApp extends PHPUnit_Framework_TestCase {
 		$methodarg->setParamId($param_id);
 		
 		$this->assertFalse($methodarg->create());
+		
+		// init acl
+		$acl = new Acl();
+		$acl->setAppkey(1077586);	// 
+		$acl->setApiId($api_id);
+		$acl->setIpStart(16843009);
+		$acl->setIpEnd(4278124286);
+		$acl->setAllow(1);
+		
+		$this->assertFalse($acl->create());
 	}
 }
