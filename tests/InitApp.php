@@ -17,7 +17,7 @@ class InitApp extends PHPUnit_Framework_TestCase {
 	/**
 	 * this method use for create api with one string param
 	 */
-	public function doInit() {
+	public function testDoInit() {
 		// init app category
 		$api_cat_id = 0;
 		$apicat = new ApiCat ();
