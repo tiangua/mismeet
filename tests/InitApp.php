@@ -6,6 +6,8 @@
  * Author : louche
  * Date : 2015Äê4ÔÂ27ÈÕ
  */
+include __DIR__ . "/test_helper.inc.php";
+
 use Openapi\Lib\Model\ApiCat;
 use Openapi\Lib\Model\Api;
 use Openapi\Lib\Model\MethodArg;
