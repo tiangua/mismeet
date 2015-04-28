@@ -13,7 +13,6 @@ use Openapi\Lib\Model\Api;
 use Openapi\Lib\Model\MethodArg;
 use Openapi\Lib\Model\ApiParam;
 use Openapi\Lib\Model\Acl;
-use Openapi\Lib\Model\Openapi\Lib\Model;
 
 class InitApp extends PHPUnit_Framework_TestCase {
 	/**
