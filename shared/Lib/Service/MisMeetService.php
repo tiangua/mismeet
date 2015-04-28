@@ -25,6 +25,8 @@ class MisMeetService {
 				$account->setUsername("phantom");
 				$account->setPassword("123456");
 				$account->setEmail("phan1@163.com");
+				$account->setDisabled(0);
+				$account->setLastLogin("0000-00-00 00:00:00");
 				$accountService ->createAccount($account);
 			}
 		} else {
