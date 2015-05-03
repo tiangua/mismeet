@@ -12,14 +12,27 @@ use OK\Util\StringUtil;
 use TestHelper\ApiClient;
 use TestHelper\HttpClient;
 
-class HelloTest extends PHPUnit_Framework_TestCase {
-    public function testHelloPhantom() {
+class TestService extends PHPUnit_Framework_TestCase {
+	public function testActionWithoutImpl() {
+		HttpClient::$autoJsonDecode = false;
+		$callback = StringUtil::getRandomWordCharacters(rand(6, 12));
+		$response = ApiClient::jsonp(
+				$callback,
+				["mismeet.operate", "1.0"],
+				["inparam" => "{\"action\":\"set.unknow\",\"username\":\"test_user_1\",\"password\":\"123456\"}"]
+		);
+		$response = substr($response, strlen($callback) + 1, strlen($response) - strlen($callback) -2);
+		$result = json_decode($response);
+		HttpClient::$autoJsonDecode = true;
+	}
+	
+    public function testCreateUser() {
         HttpClient::$autoJsonDecode = false;
         $callback = StringUtil::getRandomWordCharacters(rand(6, 12));
         $response = ApiClient::jsonp(
             $callback,
             ["mismeet.operate", "1.0"],
-            ["inparam" => "{\"username\":\"test_normal_user\",\"password\":\"123456\"}"]
+            ["inparam" => "{\"action\":\"set.createuser\",\"username\":\"test_user_1\",\"password\":\"123456\"}"]
         );
         $response = substr($response, strlen($callback) + 1, strlen($response) - strlen($callback) -2);
         $result = json_decode($response);
