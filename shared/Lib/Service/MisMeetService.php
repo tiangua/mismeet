@@ -20,15 +20,16 @@ class MisMeetService {
 		$resStr = "";
 		// param extract
 		if ($obj = json_decode ( $inparam )) {
-			$operation = $obj->action;
+			$objArray = get_object_vars($obj);
+			$operation = $this->getJsonValue($objArray, "action");
 			$resStr = "the operation is " . $operation;
 			
 			if ($operation == "set.createuser"){
 				$accountService = new AccountService();
 				$account = new Account();
-				$account->setUsername($obj->username);
-				$account->setPassword($obj->password);
-				$account->setEmail($obj->username . "@163.com");
+				$account->setUsername($this->getJsonValue($objArray,"username"));
+				$account->setPassword($this->getJsonValue($objArray,"password"));
+				$account->setEmail($this->getJsonValue($objArray,"username") . "@163.com");
 				$account->setDisabled(0);
 				$account->setLastLogin("0000-00-00 00:00:00");
 				if ($accountService ->createAccount($account)){
@@ -40,15 +41,15 @@ class MisMeetService {
 			
 			if ($operation == "set.userinfo"){
 				$userProfile = new UserProfile();
-				$userProfile->setUserId($obj->user_id);
-				$userProfile->setProSign($obj->pro_sign);
-				$userProfile->setProPhoto($obj->pro_photo);
-				$userProfile->setBirthDate($obj->birth_date);
-				$userProfile->setProHeight($obj->pro_height);
-				$userProfile->setProWeight($obj->pro_weight);
-				$userProfile->setIsMale($obj->is_male);
-				$userProfile->setWantMale($obj->want_male);
-				$userProfile->setIsHeart($obj->is_heart);
+				$userProfile->setUserId($this->getJsonValue($objArray,"user_id"));
+				$userProfile->setProSign($this->getJsonValue($objArray,"pro_sign"));
+				$userProfile->setProPhoto($this->getJsonValue($objArray,"pro_photo"));
+				$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
+				$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
+				$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
+				$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
+				$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
+				$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
 				$userProfile->setGmtCreate(time());
 				$userProfile->setGmtModified(time());
 				if ($userProfile->create()){
@@ -67,5 +68,13 @@ class MisMeetService {
 		$dataDO->setRes($resStr);
 		$resultDO->setData($dataDO);
 		return $resultDO;
+	}
+	
+	private function getJsonValue($obj_array , $obj_key){
+		if (array_key_exists($obj_key,$jsonArray)){
+			echo $jsonArray[$obj_key];
+		}else{
+			echo 0;
+		}
 	}
 }
