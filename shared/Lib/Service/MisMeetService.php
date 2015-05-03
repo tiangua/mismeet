@@ -72,7 +72,7 @@ class MisMeetService {
 	
 	private function getJsonValue($obj_array , $obj_key){
 		if (array_key_exists($obj_key,$obj_array)){
-			echo $jsonArray[$obj_key];
+			echo $obj_array[$obj_key];
 		}else{
 			echo 0;
 		}
