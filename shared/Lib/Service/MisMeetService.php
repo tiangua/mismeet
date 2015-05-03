@@ -50,8 +50,8 @@ class MisMeetService {
 				$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
 				$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
 				$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
-				$userProfile->setGmtCreate(time());
-				$userProfile->setGmtModified(time());
+				$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
+				$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 				if ($userProfile->create()){
 					$resStr = "create user profile ". $userProfile->getId() ." success!";
 				}else{
