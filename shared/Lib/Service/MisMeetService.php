@@ -42,7 +42,20 @@ class MisMeetService {
 				$userProfile = new UserProfile();
 				$userProfile->setUserId($obj->user_id);
 				$userProfile->setProSign($obj->pro_sign);
-				$userProfile->setProPhoto($obj->$pro_photo);
+				$userProfile->setProPhoto($obj->pro_photo);
+				$userProfile->setBirthDate($obj->birth_date);
+				$userProfile->setProHeight($obj->pro_height);
+				$userProfile->setProWeight($obj->pro_weight);
+				$userProfile->setIsMale($obj->is_male);
+				$userProfile->setWantMale($obj->want_male);
+				$userProfile->setIsHeart($obj->is_heart);
+				$userProfile->setGmtCreate(time());
+				$userProfile->setGmtModified(time());
+				if ($userProfile->create()){
+					$resStr = "create user profile ". $userProfile->getId() ." success!";
+				}else{
+					$resStr = "create user profile failed!";
+				}
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
