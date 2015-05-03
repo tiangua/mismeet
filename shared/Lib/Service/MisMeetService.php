@@ -12,6 +12,8 @@ use MisMeet\Lib\DomainObject\ServiceReturnData\MisMeetRes;
 use MisMeet\Lib\ConfigConstant\MisMeetErrorEnum;
 use Passport\Lib\Service\AccountService;
 use Passport\Lib\Model\Account;
+use MisMeet\Lib\Model\UserProfile;
+use MisMeet\Lib\Model\MisMeet\Lib\Model;
 
 class MisMeetService {
 	public function operate($inparam) {
@@ -37,7 +39,10 @@ class MisMeetService {
 			}
 			
 			if ($operation == "set.userinfo"){
-				;
+				$userProfile = new UserProfile();
+				$userProfile->setUserId($obj->user_id);
+				$userProfile->setProSign($obj->pro_sign);
+				$userProfile->setProPhoto($obj->$pro_photo);
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
