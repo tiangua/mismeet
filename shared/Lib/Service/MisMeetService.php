@@ -90,7 +90,7 @@ class MisMeetService {
 					$userProfile = UserProfile::findUniqueByUserId($userId);
 					if ($userProfile){
 						$userProfileArray = get_object_vars($userProfile);
-						echo $userProfileArray;
+						print_r($userProfileArray);
 						$resStr = json_encode($userProfileArray);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
