@@ -92,8 +92,7 @@ class MisMeetService {
 					print_r($userProfile);
 					if ($userProfile){
 						$userProfileArray = get_object_vars($userProfile);
-						print_r($userProfileArray);
-						$resStr = json_encode($userProfileArray);
+						$resStr = json_encode($userProfileArray,NULL,1);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
 					return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
