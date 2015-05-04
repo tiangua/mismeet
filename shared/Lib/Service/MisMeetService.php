@@ -86,10 +86,8 @@ class MisMeetService {
 			if ($operation == "get.userinfo"){
 				// check userid input
 				$userId = $this->getJsonValue($objArray,"user_id");
-				print_r($userId);
 				if ($userId > 0){
 					$userProfile = UserProfile::findUniqueByUserId($userId);
-					print_r($userProfile);
 					if ($userProfile){
 						$userProfileArray = get_object_vars($userProfile);
 						$resStr = json_encode($userProfileArray,NULL,1);
