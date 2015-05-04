@@ -518,4 +518,10 @@ class UserProfile extends ModelBase
     	parent::initialize();
     	$this->setConnectionService(ServiceName::DB_MISMEET);
     }
+    
+    static public function findUniqueByUserId($user_id) {
+    	$do = new ModelQueryByUKDO();
+    	$do->setBind(["user_id" => $user_id]);
+    	return parent::findUniqueByUK($do);
+    }
 }

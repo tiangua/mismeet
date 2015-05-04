@@ -51,4 +51,17 @@ class TestService extends PHPUnit_Framework_TestCase {
     	$result = json_decode($response);
     	HttpClient::$autoJsonDecode = true;
     }
+    
+    public function testGetUserProfile(){
+    	HttpClient::$autoJsonDecode = false;
+    	$callback = StringUtil::getRandomWordCharacters(rand(6, 12));
+    	$response = ApiClient::jsonp(
+    			$callback,
+    			["mismeet.operate", "1.0"],
+    			["inparam" => "{\"action\":\"get.userinfo\",\"user_id\":\"1\"}"]
+    	);
+    	$response = substr($response, strlen($callback) + 1, strlen($response) - strlen($callback) -2);
+    	$result = json_decode($response);
+    	HttpClient::$autoJsonDecode = true;
+    }
 }

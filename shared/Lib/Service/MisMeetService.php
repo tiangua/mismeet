@@ -40,23 +40,69 @@ class MisMeetService {
 			}
 			
 			if ($operation == "set.userinfo"){
-				$userProfile = new UserProfile();
-				$userProfile->setUserId($this->getJsonValue($objArray,"user_id"));
-				$userProfile->setProSign($this->getJsonValue($objArray,"pro_sign"));
-				$userProfile->setProPhoto($this->getJsonValue($objArray,"pro_photo"));
-				$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
-				$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
-				$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
-				$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
-				$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
-				$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
-				$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
-				$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
-				if ($userProfile->create()){
-					$resStr = "create user profile ". $userProfile->getId() ." success!";
+				$userId = $this->getJsonValue($objArray,"user_id");
+				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				
+				$userProfile = UserProfile::findUniqueByUserId($userId);
+				if ($userProfile){
+					// find do update
+					if (array_key_exists("pro_sign",$objArray)) $userProfile->setProSign($objArray["pro_sign"]);
+					if (array_key_exists("pro_photo",$objArray)) $userProfile->setProSign($objArray["pro_photo"]);
+					if (array_key_exists("birth_date",$objArray)) $userProfile->setProSign($objArray["birth_date"]);
+					if (array_key_exists("pro_height",$objArray)) $userProfile->setProSign($objArray["pro_height"]);
+					if (array_key_exists("pro_weight",$objArray)) $userProfile->setProSign($objArray["pro_weight"]);
+					if (array_key_exists("is_male",$objArray)) $userProfile->setProSign($objArray["is_male"]);
+					if (array_key_exists("want_male",$objArray)) $userProfile->setProSign($objArray["want_male"]);
+					if (array_key_exists("is_heart",$objArray)) $userProfile->setProSign($objArray["is_heart"]);
+					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userProfile->update()){
+						$resStr = "update user profile ". $userProfile->getId() ." success!";
+					}else{
+						$resStr = "update user profile failed!";
+					}
 				}else{
-					$resStr = "create user profile failed!";
+					// not find do create
+					$userProfile = new UserProfile();
+					$userProfile->setUserId($userId);
+					$userProfile->setProSign($this->getJsonValue($objArray,"pro_sign"));
+					$userProfile->setProPhoto($this->getJsonValue($objArray,"pro_photo"));
+					$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
+					$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
+					$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
+					$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
+					$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
+					$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
+					$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
+					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userProfile->create()){
+						$resStr = "create user profile ". $userProfile->getId() ." success!";
+					}else{
+						$resStr = "create user profile failed!";
+					}
 				}
+				
+			}
+			
+			if ($operation == "get.userinfo"){
+				// check userid input
+				$userId = $this->getJsonValue($objArray,"user_id");
+				if ($userId > 0){
+					$userProfile = UserProfile::findUniqueByUserId($userId);
+					if ($userProfile){
+						$userProfileArray = get_object_vars($userProfile);
+						$resStr = json_encode($userProfileArray);
+					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
+				}else{
+					return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				}
+			}
+			
+			if ($operation == "set.location"){
+				
+			}
+			
+			if ($operation == "get.userlist"){
+				
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
