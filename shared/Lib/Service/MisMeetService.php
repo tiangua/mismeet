@@ -47,13 +47,13 @@ class MisMeetService {
 				if ($userProfile){
 					// find do update
 					if (array_key_exists("pro_sign",$objArray)) $userProfile->setProSign($objArray["pro_sign"]);
-					if (array_key_exists("pro_photo",$objArray)) $userProfile->setProSign($objArray["pro_photo"]);
-					if (array_key_exists("birth_date",$objArray)) $userProfile->setProSign($objArray["birth_date"]);
-					if (array_key_exists("pro_height",$objArray)) $userProfile->setProSign($objArray["pro_height"]);
-					if (array_key_exists("pro_weight",$objArray)) $userProfile->setProSign($objArray["pro_weight"]);
-					if (array_key_exists("is_male",$objArray)) $userProfile->setProSign($objArray["is_male"]);
-					if (array_key_exists("want_male",$objArray)) $userProfile->setProSign($objArray["want_male"]);
-					if (array_key_exists("is_heart",$objArray)) $userProfile->setProSign($objArray["is_heart"]);
+					if (array_key_exists("pro_photo",$objArray)) $userProfile->setProPhoto($objArray["pro_photo"]);
+					if (array_key_exists("birth_date",$objArray)) $userProfile->setBirthDate($objArray["birth_date"]);
+					if (array_key_exists("pro_height",$objArray)) $userProfile->setProHeight($objArray["pro_height"]);
+					if (array_key_exists("pro_weight",$objArray)) $userProfile->setProWeight($objArray["pro_weight"]);
+					if (array_key_exists("is_male",$objArray)) $userProfile->setIsMale($objArray["is_male"]);
+					if (array_key_exists("want_male",$objArray)) $userProfile->setWantMale($objArray["want_male"]);
+					if (array_key_exists("is_heart",$objArray)) $userProfile->setIsHeart($objArray["is_heart"]);
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->update()){
 						$resStr = "update user profile ". $userProfile->getId() ." success!";
@@ -90,6 +90,7 @@ class MisMeetService {
 					$userProfile = UserProfile::findUniqueByUserId($userId);
 					if ($userProfile){
 						$userProfileArray = get_object_vars($userProfile);
+						echo $userProfileArray;
 						$resStr = json_encode($userProfileArray);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
