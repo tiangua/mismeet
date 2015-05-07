@@ -135,7 +135,7 @@ class MisMeetService {
 				}else{
 					// not find do create
 					$userTarget = new UserTarget();
-					$userTarget->setUserId($user_id);
+					$userTarget->setUserId($userId);
 					$userTarget->setNowLng($now_lng);
 					$userTarget->setNowLat($now_lat);
 					$userTarget->setPosTile1($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL1));
