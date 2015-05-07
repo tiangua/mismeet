@@ -10,10 +10,11 @@ namespace MisMeet\Lib\Service;
 use OK\PhpEnhance\DomainObject\ServiceResultDO;
 use MisMeet\Lib\DomainObject\ServiceReturnData\MisMeetRes;
 use MisMeet\Lib\ConfigConstant\MisMeetErrorEnum;
+use MisMeet\Lib\ConfigConstant\MisMeetConfig;
 use Passport\Lib\Service\AccountService;
 use Passport\Lib\Model\Account;
 use MisMeet\Lib\Model\UserProfile;
-use MisMeet\Lib\Model\MisMeet\Lib\Model;
+use MisMeet\Lib\Model\UserTarget;
 
 class MisMeetService {
 	public function operate($inparam) {
@@ -51,9 +52,13 @@ class MisMeetService {
 					if (array_key_exists("birth_date",$objArray)) $userProfile->setBirthDate($objArray["birth_date"]);
 					if (array_key_exists("pro_height",$objArray)) $userProfile->setProHeight($objArray["pro_height"]);
 					if (array_key_exists("pro_weight",$objArray)) $userProfile->setProWeight($objArray["pro_weight"]);
+					if (array_key_exists("pro_work",$objArray)) $userProfile->setProWork($objArray["pro_work"]);
+					if (array_key_exists("pro_hobbies",$objArray)) $userProfile->setProHobbies($objArray["pro_hobbies"]);
 					if (array_key_exists("is_male",$objArray)) $userProfile->setIsMale($objArray["is_male"]);
 					if (array_key_exists("want_male",$objArray)) $userProfile->setWantMale($objArray["want_male"]);
 					if (array_key_exists("is_heart",$objArray)) $userProfile->setIsHeart($objArray["is_heart"]);
+					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
+					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->update()){
 						$resStr = "update user profile ". $userProfile->getId() ." success!";
@@ -69,9 +74,13 @@ class MisMeetService {
 					$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
 					$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
 					$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
+					if (array_key_exists("pro_work",$objArray)) $userProfile->setProWork($objArray["pro_work"]);
+					if (array_key_exists("pro_hobbies",$objArray)) $userProfile->setProHobbies($objArray["pro_hobbies"]);
 					$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
 					$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
 					$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
+					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
+					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->create()){
@@ -98,11 +107,58 @@ class MisMeetService {
 			}
 			
 			if ($operation == "set.location"){
+				$userId = $this->getJsonValue($objArray,"user_id");
+				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				$now_lng = $this->getJsonValue($objArray,"now_lng");
+				$now_lat = $this->getJsonValue($objArray,"now_lat");
+				// get userinfo by userid
+				$userProfile = UserProfile::findUniqueByUserId($userId);
 				
+				$userTarget = UserTarget::findUniqueByUserId($userId);
+				if ($userTarget){
+					// find do update
+					$userTarget->setNowLng($now_lng);
+					$userTarget->setNowLat($now_lat);
+					$userTarget->setPosTile1($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL1));
+					$userTarget->setPosTile2($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL2));
+					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
+					$userTarget->setIsHeart($userProfile->getIsHeart());
+					$userTarget->setIsMale($userProfile->getIsMale());
+					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
+					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
+					$userTarget->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userTarget->update()){
+						$resStr = "update user target ". $userTarget->getId() ." success!";
+					}else{
+						$resStr = "update user target failed!";
+					}
+				}else{
+					// not find do create
+					$userTarget = new UserTarget();
+					$userTarget->setUserId($user_id);
+					$userTarget->setNowLng($now_lng);
+					$userTarget->setNowLat($now_lat);
+					$userTarget->setPosTile1($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL1));
+					$userTarget->setPosTile2($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL2));
+					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
+					$userTarget->setIsHeart($userProfile->getIsHeart());
+					$userTarget->setIsMale($userProfile->getIsMale());
+					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
+					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
+					$userTarget->setGmtCreate(date("Y-m-d H:i:s",time()));
+					$userTarget->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userTarget->create()){
+						$resStr = "create user target ". $userTarget->getId() ." success!";
+					}else{
+						$resStr = "create user target failed!";
+					}
+				}
 			}
 			
 			if ($operation == "get.userlist"){
-				
+				$now_lng = $this->getJsonValue($objArray,"now_lng");
+				$now_lat = $this->getJsonValue($objArray,"now_lat");
+				$resStr = json_encode(UserTarget::findByPos($now_lng, $now_lat));
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
@@ -116,11 +172,31 @@ class MisMeetService {
 		return $resultDO;
 	}
 	
+	/**
+	 * 根据关联数组，取得对应Key的值
+	 * @param $obj_array
+	 * @param $obj_key
+	 * @return paramvalue
+	 */
 	private function getJsonValue($obj_array , $obj_key){
 		if (array_key_exists($obj_key,$obj_array)){
 			return $obj_array[$obj_key];
 		}else{
 			return 0;
 		}
+	}
+	
+	/**
+	 * 根据经纬度获得指定级别网格名称
+	 * @param $lon 经度
+	 * @param $lat 纬度
+	 * @param $zoom 当前级别
+	 * @return tilename
+	 */
+	private function getTileName($lon, $lat, $zoom)
+	{
+		$xtile = floor((($lon + 180) / 360) * pow(2, $zoom));
+		$ytile = floor((1 - log(tan(deg2rad($lat)) + 1 / cos(deg2rad($lat))) / pi()) /2 * pow(2, $zoom));
+		return $xtile.'_'.$ytile.'_'.$zoom;
 	}
 }

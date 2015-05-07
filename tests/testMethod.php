@@ -64,4 +64,30 @@ class TestService extends PHPUnit_Framework_TestCase {
     	$result = json_decode($response);
     	HttpClient::$autoJsonDecode = true;
     }
+    
+    public function testUpdateLocation(){
+    	HttpClient::$autoJsonDecode = false;
+    	$callback = StringUtil::getRandomWordCharacters(rand(6, 12));
+    	$response = ApiClient::jsonp(
+    			$callback,
+    			["mismeet.operate", "1.0"],
+    			["inparam" => "{\"action\":\"set.location\",\"user_id\":\"1\",\"now_lng\":\"12016706\",\"now_lat\":\"3026402\"}"]
+    	);
+    	$response = substr($response, strlen($callback) + 1, strlen($response) - strlen($callback) -2);
+    	$result = json_decode($response);
+    	HttpClient::$autoJsonDecode = true;
+    }
+    
+    public function testGetUserList(){
+    	HttpClient::$autoJsonDecode = false;
+    	$callback = StringUtil::getRandomWordCharacters(rand(6, 12));
+    	$response = ApiClient::jsonp(
+    			$callback,
+    			["mismeet.operate", "1.0"],
+    			["inparam" => "{\"action\":\"get.userlist\",\"now_lng\":\"12016706\",\"now_lat\":\"3026402\"}"]
+    	);
+    	$response = substr($response, strlen($callback) + 1, strlen($response) - strlen($callback) -2);
+    	$result = json_decode($response);
+    	HttpClient::$autoJsonDecode = true;
+    }
 }
