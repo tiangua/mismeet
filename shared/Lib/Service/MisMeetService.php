@@ -159,8 +159,8 @@ class MisMeetService {
 				$now_lng = $this->getJsonValue($objArray,"now_lng");
 				$now_lat = $this->getJsonValue($objArray,"now_lat");
 				$tempres = UserTarget::findByPos($now_lng, $now_lat);
-				print_r($tempres);
-				$resStr = json_encode($tempres->rows);
+				print_r($tempres->toArray());
+				$resStr = json_encode($tempres->toArray());
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
