@@ -158,7 +158,9 @@ class MisMeetService {
 			if ($operation == "get.userlist"){
 				$now_lng = $this->getJsonValue($objArray,"now_lng");
 				$now_lat = $this->getJsonValue($objArray,"now_lat");
-				$resStr = json_encode(UserTarget::findByPos($now_lng, $now_lat));
+				$tempres = UserTarget::findByPos($now_lng, $now_lat);
+				print_r($tempres);
+				$resStr = json_encode($tempres);
 			}
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
@@ -195,8 +197,10 @@ class MisMeetService {
 	 */
 	private function getTileName($lon, $lat, $zoom)
 	{
-		$xtile = floor((($lon + 180) / 360) * pow(2, $zoom));
-		$ytile = floor((1 - log(tan(deg2rad($lat)) + 1 / cos(deg2rad($lat))) / pi()) /2 * pow(2, $zoom));
+		$f_lon = $lon / 100000.0;
+		$f_lat = $lat / 100000.0;
+		$xtile = floor((($f_lon + 180) / 360) * pow(2, $zoom));
+		$ytile = floor((1 - log(tan(deg2rad($f_lat)) + 1 / cos(deg2rad($f_lat))) / pi()) /2 * pow(2, $zoom));
 		return $xtile.'_'.$ytile.'_'.$zoom;
 	}
 }

@@ -7,8 +7,10 @@ DROP TABLE IF EXISTS `user_profile`;
 CREATE TABLE `user_profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `user_nick` varchar(50) DEFAULT NULL COMMENT '用户昵称',
   `pro_sign` varchar(256) DEFAULT NULL COMMENT '个性签名',
   `pro_photo` varchar(1024) DEFAULT NULL COMMENT '个人照片',
+  `user_photos` varchar(2048) DEFAULT NULL COMMENT '照片',
   `birth_date` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '生日 20150510',
   `pro_height` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '身高(CM)',
   `pro_weight` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '体重(KG)',
