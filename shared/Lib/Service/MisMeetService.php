@@ -49,6 +49,8 @@ class MisMeetService {
 					// find do update
 					if (array_key_exists("pro_sign",$objArray)) $userProfile->setProSign($objArray["pro_sign"]);
 					if (array_key_exists("pro_photo",$objArray)) $userProfile->setProPhoto($objArray["pro_photo"]);
+					if (array_key_exists("user_nick",$objArray)) $userProfile->setUserNick($objArray["user_nick"]);
+					if (array_key_exists("user_photos",$objArray)) $userProfile->setUserPhotos($objArray["user_photos"]);
 					if (array_key_exists("birth_date",$objArray)) $userProfile->setBirthDate($objArray["birth_date"]);
 					if (array_key_exists("pro_height",$objArray)) $userProfile->setProHeight($objArray["pro_height"]);
 					if (array_key_exists("pro_weight",$objArray)) $userProfile->setProWeight($objArray["pro_weight"]);
@@ -71,6 +73,8 @@ class MisMeetService {
 					$userProfile->setUserId($userId);
 					$userProfile->setProSign($this->getJsonValue($objArray,"pro_sign"));
 					$userProfile->setProPhoto($this->getJsonValue($objArray,"pro_photo"));
+					$userProfile->setUserNick($this->getJsonValue($objArray,"user_nick"));
+					$userProfile->setUserPhotos($this->getJsonValue($objArray,"user_photos"));
 					$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
 					$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
 					$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
@@ -159,7 +163,6 @@ class MisMeetService {
 				$now_lng = $this->getJsonValue($objArray,"now_lng");
 				$now_lat = $this->getJsonValue($objArray,"now_lat");
 				$tempres = UserTarget::findByPos($now_lng, $now_lat);
-				print_r($tempres->toArray());
 				$resStr = json_encode($tempres->toArray());
 			}
 		} else {
