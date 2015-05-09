@@ -1,7 +1,7 @@
 <?php
 /**
- * 
- * Description : user profile 
+ *
+ * Description : user profile
  * Author : louche
  * Date : 2015Äê5ÔÂ3ÈÕ
  */
@@ -32,6 +32,12 @@ class UserProfile extends ModelBase
      *
      * @var string
      */
+    protected $user_nick;
+
+    /**
+     *
+     * @var string
+     */
     protected $pro_sign;
 
     /**
@@ -39,6 +45,12 @@ class UserProfile extends ModelBase
      * @var string
      */
     protected $pro_photo;
+
+    /**
+     *
+     * @var string
+     */
+    protected $user_photos;
 
     /**
      *
@@ -139,6 +151,19 @@ class UserProfile extends ModelBase
     }
 
     /**
+     * Method to set the value of field user_nick
+     *
+     * @param string $user_nick
+     * @return $this
+     */
+    public function setUserNick($user_nick)
+    {
+        $this->user_nick = $user_nick;
+
+        return $this;
+    }
+
+    /**
      * Method to set the value of field pro_sign
      *
      * @param string $pro_sign
@@ -160,6 +185,19 @@ class UserProfile extends ModelBase
     public function setProPhoto($pro_photo)
     {
         $this->pro_photo = $pro_photo;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field user_photos
+     *
+     * @param string $user_photos
+     * @return $this
+     */
+    public function setUserPhotos($user_photos)
+    {
+        $this->user_photos = $user_photos;
 
         return $this;
     }
@@ -341,6 +379,16 @@ class UserProfile extends ModelBase
     }
 
     /**
+     * Returns the value of field user_nick
+     *
+     * @return string
+     */
+    public function getUserNick()
+    {
+        return $this->user_nick;
+    }
+
+    /**
      * Returns the value of field pro_sign
      *
      * @return string
@@ -358,6 +406,16 @@ class UserProfile extends ModelBase
     public function getProPhoto()
     {
         return $this->pro_photo;
+    }
+
+    /**
+     * Returns the value of field user_photos
+     *
+     * @return string
+     */
+    public function getUserPhotos()
+    {
+        return $this->user_photos;
     }
 
     /**
@@ -493,8 +551,10 @@ class UserProfile extends ModelBase
         return array(
             'id' => 'id', 
             'user_id' => 'user_id', 
+            'user_nick' => 'user_nick', 
             'pro_sign' => 'pro_sign', 
             'pro_photo' => 'pro_photo', 
+            'user_photos' => 'user_photos', 
             'birth_date' => 'birth_date', 
             'pro_height' => 'pro_height', 
             'pro_weight' => 'pro_weight', 
