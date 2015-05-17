@@ -437,7 +437,7 @@ class UserTarget extends ModelBase
     
     static public function findByPos($now_lng , $now_lat) {
     	$do = new ModelQueryDO();
-    	$do->setColumns ( "user_id, ABS(now_lng-" . $now_lng . ")+ABS(now_lat-" . $now_lat . ") AS dis" );
+    	$do->setColumns ( "user_id, ABS(cast(now_lng as signed)-cast(" . $now_lng . " as signed))+ABS(cast(now_lat as signed)-cast(" . $now_lat . " as signed)) AS dis" );
     	$do->setConditions("now_lng > 0 AND now_lat > 0");
     	$do->setOrderBy("dis");
     	return parent::findUseDO($do);
