@@ -33,8 +33,9 @@ class MisMeetService {
 				$account->setEmail($this->getJsonValue($objArray,"username") . "@163.com");
 				$account->setDisabled(0);
 				$account->setLastLogin("0000-00-00 00:00:00");
-				if ($accountService ->createAccount($account)){
-					$resStr = "create user success!";
+				$resAccount = $accountService ->createAccount($account);
+				if ($resAccount){
+					$resStr = json_encode($resAccount->getData());// "create user success!";
 				}else{
 					$resStr = "create user failed!";
 				}
@@ -63,7 +64,7 @@ class MisMeetService {
 					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->update()){
-						$resStr = "update user profile ". $userProfile->getId() ." success!";
+						$resStr = json_encode($userProfile); //"update user profile ". $userProfile->getId() ." success!";
 					}else{
 						$resStr = "update user profile failed!";
 					}
@@ -88,7 +89,7 @@ class MisMeetService {
 					$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->create()){
-						$resStr = "create user profile ". $userProfile->getId() ." success!";
+						$resStr = json_encode($userProfile); //"create user profile ". $userProfile->getId() ." success!";
 					}else{
 						$resStr = "create user profile failed!";
 					}
