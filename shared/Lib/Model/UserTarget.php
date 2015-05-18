@@ -30,6 +30,18 @@ class UserTarget extends ModelBase
 
     /**
      *
+     * @var string
+     */
+    protected $user_nick;
+
+    /**
+     *
+     * @var string
+     */
+    protected $pro_photo;
+
+    /**
+     *
      * @var integer
      */
     protected $is_heart;
@@ -116,6 +128,32 @@ class UserTarget extends ModelBase
     public function setUserId($user_id)
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field user_nick
+     *
+     * @param string $user_nick
+     * @return $this
+     */
+    public function setUserNick($user_nick)
+    {
+        $this->user_nick = $user_nick;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field pro_photo
+     *
+     * @param string $pro_photo
+     * @return $this
+     */
+    public function setProPhoto($pro_photo)
+    {
+        $this->pro_photo = $pro_photo;
 
         return $this;
     }
@@ -284,6 +322,26 @@ class UserTarget extends ModelBase
     }
 
     /**
+     * Returns the value of field user_nick
+     *
+     * @return string
+     */
+    public function getUserNick()
+    {
+        return $this->user_nick;
+    }
+
+    /**
+     * Returns the value of field pro_photo
+     *
+     * @return string
+     */
+    public function getProPhoto()
+    {
+        return $this->pro_photo;
+    }
+
+    /**
      * Returns the value of field is_heart
      *
      * @return integer
@@ -393,11 +451,6 @@ class UserTarget extends ModelBase
         return $this->gmt_modified;
     }
 
-    public function getSource()
-    {
-        return 'user_target';
-    }
-
     /**
      * Independent Column Mapping.
      */
@@ -406,6 +459,8 @@ class UserTarget extends ModelBase
         return array(
             'id' => 'id', 
             'user_id' => 'user_id', 
+            'user_nick' => 'user_nick', 
+            'pro_photo' => 'pro_photo', 
             'is_heart' => 'is_heart', 
             'is_male' => 'is_male', 
             'now_lng' => 'now_lng', 
