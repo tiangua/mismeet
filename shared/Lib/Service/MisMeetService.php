@@ -129,6 +129,8 @@ class MisMeetService {
 					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
 					$userTarget->setIsHeart($userProfile->getIsHeart());
 					$userTarget->setIsMale($userProfile->getIsMale());
+					$userTarget->setUserNick($userProfile->getUserNick());
+					$userTarget->setProPhoto($userProfile->getProPhoto());
 					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
 					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userTarget->setGmtModified(date("Y-m-d H:i:s",time()));
@@ -148,6 +150,8 @@ class MisMeetService {
 					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
 					$userTarget->setIsHeart($userProfile->getIsHeart());
 					$userTarget->setIsMale($userProfile->getIsMale());
+					$userTarget->setUserNick($userProfile->getUserNick());
+					$userTarget->setProPhoto($userProfile->getProPhoto());
 					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
 					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userTarget->setGmtCreate(date("Y-m-d H:i:s",time()));
