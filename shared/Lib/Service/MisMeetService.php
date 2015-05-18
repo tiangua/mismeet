@@ -163,7 +163,10 @@ class MisMeetService {
 			if ($operation == "get.userlist"){
 				$now_lng = $this->getJsonValue($objArray,"now_lng");
 				$now_lat = $this->getJsonValue($objArray,"now_lat");
-				$tempres = UserTarget::findByPos($now_lng, $now_lat);
+				$user_id = $this->getJsonValue($objArray,"user_id");		// 传入查询userId 需要排除
+				$is_male = $this->getJsonValue($objArray,"is_male");
+				$page_no = $this->getJsonValue($objArray,"page_no");
+				$tempres = UserTarget::findByPos($now_lng, $now_lat, $user_id, $is_male, $page_no);
 				$resStr = json_encode($tempres->toArray());
 			}
 		} else {
@@ -186,6 +189,10 @@ class MisMeetService {
 	 */
 	private function getJsonValue($obj_array , $obj_key){
 		if (array_key_exists($obj_key,$obj_array)){
+			if ($obj_key=="now_lng" || $obj_key=="now_lat"){
+				if ($obj_array[$obj_key] < 10000)
+					return floor($obj_array[$obj_key]*100000);
+			}
 			return $obj_array[$obj_key];
 		}else{
 			return 0;

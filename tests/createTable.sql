@@ -37,6 +37,8 @@ DROP TABLE IF EXISTS `user_target`;
 CREATE TABLE `user_target` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `user_nick` varchar(50) DEFAULT NULL COMMENT '用户昵称',
+  `pro_photo` varchar(1024) DEFAULT NULL COMMENT '个人照片',
   `is_heart` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否兴奋状态1是0不是',
   `is_male` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否男1是0不是',
   `now_lng` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '当前坐标经度',

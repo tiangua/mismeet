@@ -435,11 +435,14 @@ class UserTarget extends ModelBase
     	return parent::findUniqueByUK($do);
     }
     
-    static public function findByPos($now_lng , $now_lat) {
+    static public function findByPos($now_lng , $now_lat , $user_id , $is_male , $page_no) {
+    	$limit = 20;
     	$do = new ModelQueryDO();
-    	$do->setColumns ( "user_id, ABS(cast(now_lng as signed)-cast(" . $now_lng . " as signed))+ABS(cast(now_lat as signed)-cast(" . $now_lat . " as signed)) AS dis" );
-    	$do->setConditions("now_lng > 0 AND now_lat > 0");
-    	$do->setOrderBy("dis");
+    	$do->setColumns ( "user_id, user_nick, pro_photo, is_heart, ABS(cast(now_lng as signed)-cast(" . $now_lng . " as signed))+ABS(cast(now_lat as signed)-cast(" . $now_lat . " as signed)) AS dis" );
+    	$do->setConditions ( "now_lng > 0 AND now_lat > 0 AND is_male = " . $is_male . " AND user_id != " . $user_id );
+		$do->setOffset ( $page_no * $limit );
+		$do->setLimit ( $limit );
+		$do->setOrderBy ( "dis" );
     	return parent::findUseDO($do);
     }
 }
