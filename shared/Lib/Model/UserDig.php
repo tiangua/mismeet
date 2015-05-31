@@ -277,12 +277,13 @@ class UserDig extends ModelBase
     static public function findByUserId($user_id , $favor_type , $page_no) {
     	$limit = 15; // 默认15条
     	$do = new ModelQueryDO();
-    	$do->setColumns ( "user_id" );
     	if ($favor_type == 2) {
     		// 根据类型设置返回喜欢我的
+    		$do->setColumns ( "user_id" );
     		$do->setConditions ( "dig_userid = " . $user_id );
     	}else{
     		// 默认都返回我喜欢的人
+    		$do->setColumns ( "dig_userid as user_id" );
     		$do->setConditions ( "user_id = " . $user_id );
     	}
     	$do->setOffset ( $page_no * $limit );
