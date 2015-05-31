@@ -35,8 +35,8 @@ class MisMeetService {
 				$account->setDisabled(0);
 				$account->setLastLogin("0000-00-00 00:00:00");
 				$resAccount = $accountService ->createAccount($account);
-				print_r($resAccount);
 				if ($resAccount){
+					if ($resAccount->getErrorCode()) return new ServiceResultDO(false, $resAccount->getErrorCode());
 					$resStr = json_encode($resAccount->getData());// "create user success!";
 				}else{
 					$resStr = "create user failed!";
