@@ -191,6 +191,8 @@ class MisMeetService {
 				$userDig->setDigUserid($targetUserId);	// 操作目标
 				$userDig->setDigType(2);	// 操作类型 定为喜欢相关
 				$userDig->setFlag($flag);
+				$userDig->setGmtCreate(date("Y-m-d H:i:s",time()));
+				$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
 				if ($userDig->create()){
 					$resStr = "set favorite success!";
 				}else{
