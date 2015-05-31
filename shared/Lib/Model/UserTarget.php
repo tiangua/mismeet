@@ -491,10 +491,11 @@ class UserTarget extends ModelBase
     }
     
     static public function findByPos($now_lng , $now_lat , $user_id , $is_male , $page_no) {
-    	$limit = 20;
+    	$limit = 15; // 默认15条
     	$do = new ModelQueryDO();
     	$do->setColumns ( "user_id, user_nick, pro_photo, is_heart, ABS(cast(now_lng as signed)-cast(" . $now_lng . " as signed))+ABS(cast(now_lat as signed)-cast(" . $now_lat . " as signed)) AS dis" );
-    	$do->setConditions ( "now_lng > 0 AND now_lat > 0 AND is_male = " . $is_male . " AND user_id != " . $user_id );
+    	// 有位置信息pos>0, 没有隐身is_heart!=2, 出现期望的性别, 自己不出现
+    	$do->setConditions ( "now_lng > 0 AND now_lat > 0 AND is_heart != 2 AND is_male = " . $is_male . " AND user_id != " . $user_id );
 		$do->setOffset ( $page_no * $limit );
 		$do->setLimit ( $limit );
 		$do->setOrderBy ( "dis" );

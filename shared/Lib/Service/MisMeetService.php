@@ -15,6 +15,7 @@ use Passport\Lib\Service\AccountService;
 use Passport\Lib\Model\Account;
 use MisMeet\Lib\Model\UserProfile;
 use MisMeet\Lib\Model\UserTarget;
+use MisMeet\Lib\Model\UserDig;
 
 class MisMeetService {
 	public function operate($inparam) {
@@ -104,6 +105,7 @@ class MisMeetService {
 					$userProfile = UserProfile::findUniqueByUserId($userId);
 					if ($userProfile){
 // 						$userProfileArray = get_object_vars($userProfile);
+						// 增加我喜欢和喜欢我的数量
 						$resStr = json_encode($userProfile);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
@@ -170,9 +172,33 @@ class MisMeetService {
 				$user_id = $this->getJsonValue($objArray,"user_id");		// 传入查询userId 需要排除
 				$is_male = $this->getJsonValue($objArray,"is_male");
 				$page_no = $this->getJsonValue($objArray,"page_no");
+				$page_size = $this->getJsonValue($objArray,"page_size");
 				$tempres = UserTarget::findByPos($now_lng, $now_lat, $user_id, $is_male, $page_no);
 				$resStr = json_encode($tempres->toArray());
 			}
+			
+			// 喜欢的相关 dig_type = 2 , 喜欢 flag = 1 , 不喜欢 flag = 2
+			if ($operation == "set.favorite"){
+				$userId = $this->getJsonValue($objArray,"user_id");
+				$targetUserId = $this->getJsonValue($objArray,"target_user_id");
+				$flag = $this->getJsonValue($objArray,"flag");
+				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				$userDig = new UserDig();
+				$userDig->setUserId($userId); // 操作者
+				$userDig->setDigUserid($targetUserId);	// 操作目标
+				$userDig->setDigType(2);	// 操作类型 定为喜欢相关
+				$userDig->setFlag($flag);
+				if ($targetUserId->create()){
+					$resStr = "set favorite success!";
+				}else{
+					$resStr = "set favorite failed!";
+				}
+			}
+			
+			if ($operation == "get.favoritelist"){
+			
+			}
+			
 		} else {
 			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
 		}
