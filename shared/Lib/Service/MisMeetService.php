@@ -38,6 +38,8 @@ class MisMeetService {
 				if ($resAccount){
 					if ($resAccount->getErrorCode()) return new ServiceResultDO(false, $resAccount->getErrorCode());
 					$resStr = json_encode($resAccount->getData());// "create user success!";
+					$resLogin = $accountService->authAccount($account->getUsername(), $account->getPassword());
+					if ($resLogin) $resStr = json_encode($resLogin->getData());
 				}else{
 					$resStr = "create user failed!";
 				}
