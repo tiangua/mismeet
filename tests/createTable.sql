@@ -68,7 +68,9 @@ CREATE TABLE `user_dig` (
   `memo` varchar(1024) DEFAULT NULL COMMENT '备注',
   `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `gmt_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_target_index` (`user_id`,`dig_userid`),
+  KEY `target_index` (`dig_userid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /**

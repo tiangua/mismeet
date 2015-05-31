@@ -204,7 +204,7 @@ class MisMeetService {
 				$userId = $this->getJsonValue($objArray,"user_id");
 				$favorType = $this->getJsonValue($objArray,"favor_type"); // 2表示喜欢我的
 				$pageNo = $this->getJsonValue($objArray,"page_no");
-				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
 				$tempres = UserDig::findByUserId($userId, $favorType, $pageNo);
 				$resStr = json_encode($tempres->toArray());
 			}
