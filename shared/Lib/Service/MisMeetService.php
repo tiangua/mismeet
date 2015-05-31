@@ -119,19 +119,19 @@ class MisMeetService {
 			if ($operation == "set.location"){
 				$userId = $this->getJsonValue($objArray,"user_id");
 				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
-				$now_lng = $this->getJsonValue($objArray,"now_lng");
-				$now_lat = $this->getJsonValue($objArray,"now_lat");
+				$nowLng = $this->getJsonValue($objArray,"now_lng");
+				$nowLat = $this->getJsonValue($objArray,"now_lat");
 				// get userinfo by userid
 				$userProfile = UserProfile::findUniqueByUserId($userId);
 				
 				$userTarget = UserTarget::findUniqueByUserId($userId);
 				if ($userTarget){
 					// find do update
-					$userTarget->setNowLng($now_lng);
-					$userTarget->setNowLat($now_lat);
-					$userTarget->setPosTile1($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL1));
-					$userTarget->setPosTile2($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL2));
-					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
+					$userTarget->setNowLng($nowLng);
+					$userTarget->setNowLat($nowLat);
+					$userTarget->setPosTile1($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL1));
+					$userTarget->setPosTile2($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL2));
+					$userTarget->setPosTile3($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL3));
 					$userTarget->setIsHeart($userProfile->getIsHeart());
 					$userTarget->setIsMale($userProfile->getIsMale());
 					$userTarget->setUserNick($userProfile->getUserNick());
@@ -148,11 +148,11 @@ class MisMeetService {
 					// not find do create
 					$userTarget = new UserTarget();
 					$userTarget->setUserId($userId);
-					$userTarget->setNowLng($now_lng);
-					$userTarget->setNowLat($now_lat);
-					$userTarget->setPosTile1($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL1));
-					$userTarget->setPosTile2($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL2));
-					$userTarget->setPosTile3($this->getTileName($now_lng, $now_lat, MisMeetConfig::POS_TILE_LEVEL3));
+					$userTarget->setNowLng($nowLng);
+					$userTarget->setNowLat($nowLat);
+					$userTarget->setPosTile1($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL1));
+					$userTarget->setPosTile2($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL2));
+					$userTarget->setPosTile3($this->getTileName($nowLng, $nowLat, MisMeetConfig::POS_TILE_LEVEL3));
 					$userTarget->setIsHeart($userProfile->getIsHeart());
 					$userTarget->setIsMale($userProfile->getIsMale());
 					$userTarget->setUserNick($userProfile->getUserNick());
@@ -170,13 +170,13 @@ class MisMeetService {
 			}
 			
 			if ($operation == "get.userlist"){
-				$now_lng = $this->getJsonValue($objArray,"now_lng");
-				$now_lat = $this->getJsonValue($objArray,"now_lat");
-				$user_id = $this->getJsonValue($objArray,"user_id");		// 传入查询userId 需要排除
-				$is_male = $this->getJsonValue($objArray,"is_male");
-				$page_no = $this->getJsonValue($objArray,"page_no");
-				$page_size = $this->getJsonValue($objArray,"page_size");
-				$tempres = UserTarget::findByPos($now_lng, $now_lat, $user_id, $is_male, $page_no);
+				$nowLng = $this->getJsonValue($objArray,"now_lng");
+				$nowLat = $this->getJsonValue($objArray,"now_lat");
+				$userId = $this->getJsonValue($objArray,"user_id");		// 传入查询userId 需要排除
+				$isMale = $this->getJsonValue($objArray,"is_male");
+				$pageNo = $this->getJsonValue($objArray,"page_no");
+				$pageSize = $this->getJsonValue($objArray,"page_size");
+				$tempres = UserTarget::findByPos($nowLng, $nowLat, $userId, $isMale, $pageNo);
 				$resStr = json_encode($tempres->toArray());
 			}
 			
@@ -199,7 +199,12 @@ class MisMeetService {
 			}
 			
 			if ($operation == "get.favoritelist"){
-			
+				$userId = $this->getJsonValue($objArray,"user_id");
+				$favorType = $this->getJsonValue($objArray,"favor_type"); // 2表示喜欢我的
+				$pageNo = $this->getJsonValue($objArray,"page_no");
+				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				$tempres = UserDig::findByUserId($userId, $favorType, $pageNo);
+				$resStr = json_encode($tempres->toArray());
 			}
 			
 		} else {
