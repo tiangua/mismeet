@@ -115,7 +115,7 @@ class MisMeetService {
 						$favorCountOther = UserDig::countByUserId($userId,2);
 						$userProfile->favor1 = $favorCountMe;
 						$userProfile->favor2 = $favorCountOther;
-						
+						print_r($userProfile);
 						$resStr = json_encode($userProfile);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
