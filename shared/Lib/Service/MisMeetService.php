@@ -7,6 +7,9 @@
  */
 namespace MisMeet\Lib\Service;
 
+require_once __DIR__ . '/../../../../../vendor/autoload.php';
+
+use Qiniu\Auth;
 use OK\PhpEnhance\DomainObject\ServiceResultDO;
 use MisMeet\Lib\DomainObject\ServiceReturnData\MisMeetRes;
 use MisMeet\Lib\ConfigConstant\MisMeetErrorEnum;
@@ -207,6 +210,15 @@ class MisMeetService {
 				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
 				$tempres = UserDig::findByUserId($userId, $favorType, $pageNo);
 				$resStr = json_encode($tempres->toArray());
+			}
+			
+			if ($operation == "get.qntoken"){
+				$accessKey = 'pJ4Ssxd8d4IOyL-yxgBjIvivlwPEHjqjpZjX6lAa';
+				$secretKey = 'dSXfCk2-tE-i2qLzK_tU_bsurMyGmbO3T_dRGwEd';
+				$auth = new Auth($accessKey, $secretKey);
+				$bucket = 'mismeet-pic';
+				$token = $auth->uploadToken($bucket);
+				$resStr = $token;
 			}
 			
 		} else {
