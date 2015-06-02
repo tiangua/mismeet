@@ -96,8 +96,8 @@ class MisMeetService {
 					$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
 					if ($userProfile->create()){
-						$resStr = json_encode($userProfile); //"create user profile ". $userProfile->getId() ." success!";
-					}else{
+						$resStr = json_encode($userProfile); // "create user profile ". $userProfile->getId() ." success!";
+					} else {
 						$resStr = "create user profile failed!";
 					}
 				}
@@ -110,8 +110,12 @@ class MisMeetService {
 				if ($userId > 0){
 					$userProfile = UserProfile::findUniqueByUserId($userId);
 					if ($userProfile){
-// 						$userProfileArray = get_object_vars($userProfile);
 						// 增加我喜欢和喜欢我的数量
+						$favorCountMe = UserDig::countByUserId($userId,1);
+						$favorCountOther = UserDig::countByUserId($userId,2);
+						$userProfile->favor1 = $favorCountMe;
+						$userProfile->favor2 = $favorCountOther;
+						
 						$resStr = json_encode($userProfile);
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{

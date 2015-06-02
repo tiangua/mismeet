@@ -290,5 +290,16 @@ class UserDig extends ModelBase
     	$do->setLimit ( $limit );
     	return parent::findUseDO($do);
     }
+    
+    static public function countByUserId($user_id , $favor_type){
+    	$do = new ModelQueryDO();
+    	if ($favor_type == 2) {
+    		// 根据类型设置返回喜欢我的
+    		$do->setConditions("dig_userid = " . $user_id);
+    	}else{
+    		$do->setConditions ( "user_id = " . $user_id );
+    	}
+    	return parent::countUseDO($do);
+    }
 
 }
