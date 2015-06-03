@@ -54,6 +54,7 @@ class MisMeetService {
 				if (!array_key_exists("password",$objArray)) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOPASSWORD_ERROR);
 				$password = $this->getJsonValue($objArray,"password");
 				
+				$accountService = new AccountService();
 				$account = Account::findUniqueByUsername($userName);
 				$updateRes = $accountService->updatePassword($account->getId(), $password);
 				if ($updateRes){
@@ -203,13 +204,14 @@ class MisMeetService {
 				$pageNo = $this->getJsonValue($objArray,"page_no");
 				$pageSize = $this->getJsonValue($objArray,"page_size");
 				$tempres = UserTarget::findByPos($nowLng, $nowLat, $userId, $isMale, $pageNo);
+				$resArray = array();
 				foreach ($tempres as $t_user){
 					if ($t_user->dis < 1000) $t_user->dislevel = "1";
 					if ($t_user->dis > 1000 && $t_user->dis < 10000) $t_user->dislevel = "2";
 					if ($t_user->dis > 10000) $t_user->dislevel = "3";
-					echo json_encode($t_user);
+					array_push($resArray,$t_user);
 				}
-				$resStr = json_encode($tempres->toArray());
+				$resStr = json_encode($resArray); //$tempres->toArray());
 			}
 			
 			// 喜欢的相关 dig_type = 2 , 喜欢 flag = 1 , 不喜欢 flag = 2
