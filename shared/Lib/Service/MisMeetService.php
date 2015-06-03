@@ -187,6 +187,9 @@ class MisMeetService {
 				$pageNo = $this->getJsonValue($objArray,"page_no");
 				$pageSize = $this->getJsonValue($objArray,"page_size");
 				$tempres = UserTarget::findByPos($nowLng, $nowLat, $userId, $isMale, $pageNo);
+				foreach ($t_user as $tempres){
+					echo json_encode($t_user);
+				}
 				$resStr = json_encode($tempres->toArray());
 			}
 			
