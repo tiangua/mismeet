@@ -113,10 +113,13 @@ class MisMeetService {
 						// 增加我喜欢和喜欢我的数量
 						$favorCountMe = UserDig::countByUserId($userId,1);
 						$favorCountOther = UserDig::countByUserId($userId,2);
-						$userProfile->favor1 = $favorCountMe;
-						$userProfile->favor2 = $favorCountOther;
-
+						
 						$resStr = json_encode($userProfile);
+						$theObj = json_decode($resStr);
+						$theObj->favor1 = $favorCountMe;
+						$theObj->favor2 = $favorCountOther;
+						print_r($theObj);
+						
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
 					return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
