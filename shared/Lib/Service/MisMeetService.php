@@ -54,7 +54,7 @@ class MisMeetService {
 				if (!array_key_exists("password",$objArray)) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOPASSWORD_ERROR);
 				$password = $this->getJsonValue($objArray,"password");
 				
-				$account = Account::findUniqueByUsername($username);
+				$account = Account::findUniqueByUsername($userName);
 				$updateRes = $accountService->updatePassword($account->getId(), $password);
 				if ($updateRes){
 					if ($updateRes->getErrorCode()) return new ServiceResultDO(false, $updateRes->getErrorCode());
