@@ -118,7 +118,7 @@ class MisMeetService {
 						$theObj = json_decode($resStr);
 						$theObj->favor1 = $favorCountMe;
 						$theObj->favor2 = $favorCountOther;
-						print_r($theObj);
+						$resStr = json_encode($theObj);
 						
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
 				}else{
