@@ -48,6 +48,21 @@ class MisMeetService {
 				}
 			}
 			
+			if ($operation == "set.password"){
+				$userName = $this->getJsonValue($objArray,"user_name");
+				if ($userName < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERNAME_ERROR);
+				$password = $this->getJsonValue($objArray,"password");
+				if ($password < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOPASSWORD_ERROR);
+				$account = Account::findUniqueByUsername($username);
+				$updateRes = $accountService->updatePassword($account->getId(), $password);
+				if ($updateRes){
+					if ($updateRes->getErrorCode()) return new ServiceResultDO(false, $updateRes->getErrorCode());
+					$resStr = "update password success!";
+				}else{
+					$resStr = "update password failed!";
+				}
+			}
+			
 			if ($operation == "set.userinfo"){
 				$userId = $this->getJsonValue($objArray,"user_id");
 				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
