@@ -49,10 +49,11 @@ class MisMeetService {
 			}
 			
 			if ($operation == "set.password"){
+				if (array_key_exists("user_name",$objArray)) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERNAME_ERROR);
 				$userName = $this->getJsonValue($objArray,"user_name");
-				if ($userName < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERNAME_ERROR);
+				if (array_key_exists("password",$objArray)) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOPASSWORD_ERROR);
 				$password = $this->getJsonValue($objArray,"password");
-				if ($password < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOPASSWORD_ERROR);
+				
 				$account = Account::findUniqueByUsername($username);
 				$updateRes = $accountService->updatePassword($account->getId(), $password);
 				if ($updateRes){
@@ -203,6 +204,9 @@ class MisMeetService {
 				$pageSize = $this->getJsonValue($objArray,"page_size");
 				$tempres = UserTarget::findByPos($nowLng, $nowLat, $userId, $isMale, $pageNo);
 				foreach ($tempres as $t_user){
+					if ($t_user->dis < 1000) $t_user->dislevel = "1千米以内";
+					if ($t_user->dis > 1000 && $t_user->dis < 10000) $t_user->dislevel = "1千米至1万米";
+					if ($t_user->dis > 10000) $t_user->dislevel = "1万米以上";
 					echo json_encode($t_user);
 				}
 				$resStr = json_encode($tempres->toArray());
