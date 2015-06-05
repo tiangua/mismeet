@@ -197,6 +197,11 @@ class MisMeetService {
 			}
 			
 			if ($operation == "get.userlist"){
+				if (array_key_exists ( "now_lng", $objArray ) && array_key_exists ( "now_lat", $objArray )){
+					$posName = getNameByPos ( $objArray ["now_lng"], $objArray ["now_lat"] );
+				}else{
+					// 异常返回
+				}
 				$nowLng = $this->getJsonValue($objArray,"now_lng");
 				$nowLat = $this->getJsonValue($objArray,"now_lat");
 				$userId = $this->getJsonValue($objArray,"user_id");		// 传入查询userId 需要排除
@@ -206,9 +211,10 @@ class MisMeetService {
 				$tempres = UserTarget::findByPos($nowLng, $nowLat, $userId, $isMale, $pageNo);
 				$resArray = array();
 				foreach ($tempres as $t_user){
-					if ($t_user->dis < 1000) $t_user->dislevel = "1";
-					if ($t_user->dis > 1000 && $t_user->dis < 10000) $t_user->dislevel = "2";
-					if ($t_user->dis > 10000) $t_user->dislevel = "3";
+					if ($t_user->dis < 200) $t_user->dislevel = urlencode($posName);
+					if ($t_user->dis < 1000) $t_user->dislevel = "1%E5%8D%83%E7%B1%B3%E4%BB%A5%E5%86%85";
+					if ($t_user->dis > 1000 && $t_user->dis < 10000) $t_user->dislevel = "1%E5%8D%83%E7%B1%B3%E5%88%B05%E5%8D%83%E7%B1%B3";
+					if ($t_user->dis > 10000) $t_user->dislevel = "5%E5%8D%83%E7%B1%B3%E4%BB%A5%E4%B8%8A";
 					array_push($resArray,$t_user);
 				}
 				$resStr = json_encode($resArray); //$tempres->toArray());
@@ -248,12 +254,11 @@ class MisMeetService {
 				$secretKey = 'dSXfCk2-tE-i2qLzK_tU_bsurMyGmbO3T_dRGwEd';
 				$auth = new Auth($accessKey, $secretKey);
 				$bucket = 'mismeet-pic';
-				$token = $auth->uploadToken($bucket);
+				$token = $auth->uploadToken ( $bucket );
 				$resStr = $token;
 			}
-			
 		} else {
-			return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
+			return new ServiceResultDO ( false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
 		}
 		
 		// build result
@@ -262,6 +267,18 @@ class MisMeetService {
 		$dataDO->setRes($resStr);
 		$resultDO->setData($dataDO);
 		return $resultDO;
+	}
+	
+	private function getNameByPos($lng , $lat){
+		$url = 'http://restapi.amap.com/v3/geocode/regeo?output=json&key=89058ab2164059b1bae34ece5ac36f02&location='.$lng.','.$lat;
+		$ch = curl_init($url);
+		
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		
+		$response = curl_exec($ch);
+		return $response->formatted_address;
 	}
 	
 	/**
