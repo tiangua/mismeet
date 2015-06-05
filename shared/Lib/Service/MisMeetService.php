@@ -212,7 +212,7 @@ class MisMeetService {
 				$resArray = array();
 				foreach ($tempres as $t_user){
 					if ($t_user->dis < 200) $t_user->dislevel = urlencode($posName);
-					if ($t_user->dis < 1000) $t_user->dislevel = "1%E5%8D%83%E7%B1%B3%E4%BB%A5%E5%86%85";
+					if ($t_user->dis > 200 && $t_user->dis < 1000) $t_user->dislevel = "1%E5%8D%83%E7%B1%B3%E4%BB%A5%E5%86%85";
 					if ($t_user->dis > 1000 && $t_user->dis < 10000) $t_user->dislevel = "1%E5%8D%83%E7%B1%B3%E5%88%B05%E5%8D%83%E7%B1%B3";
 					if ($t_user->dis > 10000) $t_user->dislevel = "5%E5%8D%83%E7%B1%B3%E4%BB%A5%E4%B8%8A";
 					array_push($resArray,$t_user);
