@@ -278,7 +278,8 @@ class MisMeetService {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		
 		$response = curl_exec($ch);
-		return $response->formatted_address;
+		$result = json_decode($response);
+		return $result->regeocode->formatted_address;
 	}
 	
 	/**
