@@ -198,7 +198,7 @@ class MisMeetService {
 			
 			if ($operation == "get.userlist"){
 				if (array_key_exists ( "now_lng", $objArray ) && array_key_exists ( "now_lat", $objArray )){
-					$posName = getNameByPos ( $objArray ["now_lng"], $objArray ["now_lat"] );
+					$posName = $this->getNameByPos( $objArray ["now_lng"], $objArray ["now_lat"] );
 				}else{
 					// “Ï≥£∑µªÿ
 				}
