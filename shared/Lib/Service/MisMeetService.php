@@ -226,17 +226,29 @@ class MisMeetService {
 				$targetUserId = $this->getJsonValue($objArray,"target_user_id");
 				$flag = $this->getJsonValue($objArray,"flag");
 				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
-				$userDig = new UserDig();
-				$userDig->setUserId($userId); // 操作者
-				$userDig->setDigUserid($targetUserId);	// 操作目标
-				$userDig->setDigType(2);	// 操作类型 定为喜欢相关
-				$userDig->setFlag($flag);
-				$userDig->setGmtCreate(date("Y-m-d H:i:s",time()));
-				$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
-				if ($userDig->create()){
-					$resStr = "set favorite success!";
+				$userDig = UserDig::findByTargetAndUserId($userId, $targetUserId);
+				if ($userTarget){
+					// find do update
+					$userDig->setFlag($flag);
+					$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userDig->update()){
+						$resStr = "update favorite success!";
+					}else{
+						$resStr = "update favorite failed!";
+					}
 				}else{
-					$resStr = "set favorite failed!";
+					$userDig = new UserDig();
+					$userDig->setUserId($userId); // 操作者
+					$userDig->setDigUserid($targetUserId);	// 操作目标
+					$userDig->setDigType(2);	// 操作类型 定为喜欢相关
+					$userDig->setFlag($flag);
+					$userDig->setGmtCreate(date("Y-m-d H:i:s",time()));
+					$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userDig->create()){
+						$resStr = "set favorite success!";
+					}else{
+						$resStr = "set favorite failed!";
+					}
 				}
 			}
 			

@@ -291,6 +291,14 @@ class UserDig extends ModelBase
     	return parent::findUseDO($do);
     }
     
+    static public function findByTargetAndUserId($user_id , $target_id){
+    	$do = new ModelQueryByUKDO();
+    	$do->setBind(["user_id" => $user_id]);
+    	$do->setBind(["dig_userid" => $target_id]);
+    	
+    	return parent::findUniqueByUK($do);
+    }
+    
     static public function countByUserId($user_id , $favor_type){
     	$do = new ModelQueryDO();
     	if ($favor_type == 2) {
