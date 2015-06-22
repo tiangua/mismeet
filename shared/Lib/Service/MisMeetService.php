@@ -227,7 +227,7 @@ class MisMeetService {
 				$flag = $this->getJsonValue($objArray,"flag");
 				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
 				$userDig = UserDig::findByTargetAndUserId($userId, $targetUserId);
-				if ($userTarget){
+				if ($userDig){
 					// find do update
 					$userDig->setFlag($flag);
 					$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
