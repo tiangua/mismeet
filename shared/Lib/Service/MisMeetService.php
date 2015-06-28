@@ -29,6 +29,14 @@ class MisMeetService {
 			$operation = $this->getJsonValue($objArray, "action");
 			$resStr = "the operation is " . $operation;
 			
+			if ($operation == "get.loginfo"){
+				$userId = $this->getJsonValue($objArray,"user_id");
+				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				$userName = $this->getJsonValue($objArray,"user_name");
+				$resLogin = $accountService->getLoginInfo($userId,$userName);
+				if ($resLogin) $resStr = json_encode($resLogin->getData());
+			}
+			
 			if ($operation == "set.createuser"){
 				$accountService = new AccountService();
 				$account = new Account();
@@ -124,6 +132,7 @@ class MisMeetService {
 			if ($operation == "get.userinfo"){
 				// check userid input
 				$userId = $this->getJsonValue($objArray,"user_id");
+				$userOpId = $this->getJsonValue($objArray,"operator_id");
 				if ($userId > 0){
 					$userProfile = UserProfile::findUniqueByUserId($userId);
 					if ($userProfile){
@@ -135,6 +144,14 @@ class MisMeetService {
 						$theObj = json_decode($resStr);
 						$theObj->favor1 = $favorCountMe;
 						$theObj->favor2 = $favorCountOther;
+						// 增加当前操作者和目标用户的喜欢关系
+						if ($userOpId > 0){
+							$userDig = UserDig::findByTargetAndUserId($userOpId, $userId);
+							if ($userDig){
+								$theObj->opfavor = $userDig->flag;
+							}
+						}
+						
 						$resStr = json_encode($theObj);
 						
 					}else return new ServiceResultDO(false, MisMeetErrorEnum::DATA_USERNOTFOUND_ERROR);
