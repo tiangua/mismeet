@@ -30,6 +30,7 @@ class MisMeetService {
 			$resStr = "the operation is " . $operation;
 			
 			if ($operation == "get.loginfo"){
+				$accountService = new AccountService();
 				$userId = $this->getJsonValue($objArray,"user_id");
 				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
 				$userName = $this->getJsonValue($objArray,"user_name");
@@ -148,7 +149,7 @@ class MisMeetService {
 						if ($userOpId > 0){
 							$userDig = UserDig::findByTargetAndUserId($userOpId, $userId);
 							if ($userDig){
-								$theObj->opfavor = $userDig->flag;
+								$theObj->opfavor = $userDig->getFlag();
 							}
 						}
 						
