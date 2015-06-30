@@ -277,7 +277,17 @@ class MisMeetService {
 				if ($userId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
 				if ($pageNo > 0) $pageNo = $pageNo - 1;
 				$tempres = UserDig::findByUserId($userId, $favorType, $pageNo);
-				$resStr = json_encode($tempres->toArray());
+				$resArray = array();
+				foreach ($tempres as $t_user){
+					printf($t_user->user_id);
+					$favorUser = UserTarget::findUniqueByUserId($t_user->user_id);
+					if ($favorUser){
+						$t_user->pro_photo = $favorUser->getProPhoto();
+						$t_user->user_nick = $favorUser->getUserNick();
+						array_push($resArray,$t_user);
+					}
+				}
+				$resStr = json_encode($resArray);
 			}
 			
 			if ($operation == "get.qntoken"){

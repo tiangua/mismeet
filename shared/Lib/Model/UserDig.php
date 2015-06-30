@@ -279,11 +279,11 @@ class UserDig extends ModelBase
     	$do = new ModelQueryDO();
     	if ($favor_type == 2) {
     		// 根据类型设置返回喜欢我的
-    		$do->setColumns ( "user_id" );
+    		$do->setColumns ( "user_id,gmt_modified" );
     		$do->setConditions ( "dig_userid = " . $user_id );
     	}else{
     		// 默认都返回我喜欢的人
-    		$do->setColumns ( "dig_userid as user_id" );
+    		$do->setColumns ( "dig_userid as user_id,gmt_modified" );
     		$do->setConditions ( "user_id = " . $user_id );
     	}
     	$do->setOffset ( $page_no * $limit );
