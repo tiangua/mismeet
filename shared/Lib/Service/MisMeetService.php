@@ -279,7 +279,6 @@ class MisMeetService {
 				$tempres = UserDig::findByUserId($userId, $favorType, $pageNo);
 				$resArray = array();
 				foreach ($tempres as $t_user){
-					printf($t_user->user_id);
 					$favorUser = UserTarget::findUniqueByUserId($t_user->user_id);
 					if ($favorUser){
 						$t_user->pro_photo = $favorUser->getProPhoto();
