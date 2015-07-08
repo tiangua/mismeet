@@ -495,7 +495,12 @@ class UserTarget extends ModelBase
     	$do = new ModelQueryDO();
     	$do->setColumns ( "user_id, user_nick, pro_photo, is_heart, ABS(cast(now_lng as signed)-cast(" . $now_lng . " as signed))+ABS(cast(now_lat as signed)-cast(" . $now_lat . " as signed)) AS dis" );
     	// 有位置信息pos>0, 没有隐身is_heart!=2, 出现期望的性别, 自己不出现
-    	$do->setConditions ( "now_lng > 0 AND now_lat > 0 AND is_heart != 2 AND is_male = " . $is_male . " AND user_id != " . $user_id );
+    	$queryStr = "now_lng > 0 AND now_lat > 0 AND is_heart != 2 AND user_id != " . $user_id;
+    	if ($is_male > 0){
+    		if ($is_male > 1) $is_male = 0; // 如果传的大于0，则表示女生；1表示男生
+    		$queryStr = $queryStr . " AND is_male = " . $is_male;
+    	}// 如果is_male未传，则默认查全部
+    	$do->setConditions ( $queryStr );
 		$do->setOffset ( $page_no * $limit );
 		$do->setLimit ( $limit );
 		$do->setOrderBy ( "dis" );
