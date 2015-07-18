@@ -319,7 +319,7 @@ class MisMeetService {
 		
 		$response = curl_exec($ch);
 		$result = json_decode($response);
-		print_r($result->regeocode);
+		print_r($url);
 		return $result->regeocode->formatted_address;
 	}
 	
