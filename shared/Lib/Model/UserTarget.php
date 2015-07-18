@@ -500,6 +500,7 @@ class UserTarget extends ModelBase
     		if ($is_male > 1) $is_male = 0; // 如果传的大于0，则表示女生；1表示男生
     		$queryStr = $queryStr . " AND is_male = " . $is_male;
     	}// 如果is_male未传，则默认查全部
+    	if ($page_no > 0) $page_no = $page_no - 1; 
     	$do->setConditions ( $queryStr );
 		$do->setOffset ( $page_no * $limit );
 		$do->setLimit ( $limit );
