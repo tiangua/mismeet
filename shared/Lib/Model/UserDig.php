@@ -295,6 +295,7 @@ class UserDig extends ModelBase
     	$do = new ModelQueryByUKDO();
     	$do->setBind(["user_id" => $user_id]);
     	$do->setBind(["dig_userid" => $target_id]);
+    	$do->setBind(["flag=1"]);
     	
     	return parent::findUniqueByUK($do);
     }
