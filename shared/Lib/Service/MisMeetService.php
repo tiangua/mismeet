@@ -217,6 +217,7 @@ class MisMeetService {
 			if ($operation == "get.userlist"){
 				if (array_key_exists ( "now_lng", $objArray ) && array_key_exists ( "now_lat", $objArray )){
 					$posName = $this->getNameByPos( $objArray ["now_lng"], $objArray ["now_lat"] );
+					if (is_array($posName)) $posName = "200米以内";
 				}else{
 					// 异常返回
 				}
