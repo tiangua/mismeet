@@ -153,7 +153,7 @@ class MisMeetService {
 							}
 						}
 						// 增加对年龄的描述
-						$theObj->agedesc = substr($theObj->birth_date,3,1);
+						if ($theObj->birth_date) $theObj->agedesc = substr($theObj->birth_date,2,1);
 						
 						$resStr = json_encode($theObj);
 						
