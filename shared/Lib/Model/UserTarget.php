@@ -497,7 +497,7 @@ class UserTarget extends ModelBase
     	// 有位置信息pos>0, 没有隐身is_heart!=2, 出现期望的性别, 自己不出现
     	$queryStr = "now_lng > 0 AND now_lat > 0 AND is_heart != 2 AND user_id != " . $user_id;
     	if ($is_male > 0){
-    		if ($is_male > 1) $is_male = 0; // 如果传的大于0，则表示女生；1表示男生
+    		if ($is_male > 1) $is_male = 0; // 如果传的大于1，则表示女生；1表示男生
     		$queryStr = $queryStr . " AND is_male = " . $is_male;
     	}// 如果is_male未传，则默认查全部
     	if ($page_no > 0) $page_no = $page_no - 1; 

@@ -303,9 +303,9 @@ class UserDig extends ModelBase
     	$do = new ModelQueryDO();
     	if ($favor_type == 2) {
     		// 根据类型设置返回喜欢我的
-    		$do->setConditions("dig_userid = " . $user_id);
+    		$do->setConditions("flag = 1 and dig_userid = " . $user_id);	// 需要增加条件flag=1，过滤是喜欢
     	}else{
-    		$do->setConditions ( "user_id = " . $user_id );
+    		$do->setConditions ( "flag = 1 and user_id = " . $user_id );
     	}
     	return parent::countUseDO($do);
     }
