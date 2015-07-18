@@ -217,7 +217,6 @@ class MisMeetService {
 			if ($operation == "get.userlist"){
 				if (array_key_exists ( "now_lng", $objArray ) && array_key_exists ( "now_lat", $objArray )){
 					$posName = $this->getNameByPos( $objArray ["now_lng"], $objArray ["now_lat"] );
-					print_r($posName);
 				}else{
 					// Òì³£·µ»Ø
 				}
@@ -320,6 +319,7 @@ class MisMeetService {
 		
 		$response = curl_exec($ch);
 		$result = json_decode($response);
+		print_r($result->regeocode);
 		return $result->regeocode->formatted_address;
 	}
 	
