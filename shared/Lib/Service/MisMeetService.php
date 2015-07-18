@@ -152,6 +152,8 @@ class MisMeetService {
 								$theObj->opfavor = $userDig->getFlag();
 							}
 						}
+						// 增加对年龄的描述
+						$theObj->agedesc = substr($theObj->birth_date,3,1);
 						
 						$resStr = json_encode($theObj);
 						
