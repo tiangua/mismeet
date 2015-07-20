@@ -312,10 +312,10 @@ class MisMeetService {
 		return $resultDO;
 	}
 	
-	private function getNameByPos($lng , $lat){
+	function getNameByPos($lng , $lat){
 		$mgLat = 0;
 		$mgLon = 0;
-		transform($lat, $lng , &$mgLat , &$mgLon);
+		transform($lat, $lng , $mgLat , $mgLon);
 		print_r($lng . "," . $lat . ";" . $mgLon . "," . $mgLat);
 		
 		$url = 'http://restapi.amap.com/v3/geocode/regeo?output=json&key=89058ab2164059b1bae34ece5ac36f02&location='.$lng.','.$lat;
@@ -339,7 +339,7 @@ class MisMeetService {
 	
 	//
 	// World Geodetic System ==> Mars Geodetic System
-	public static function transform($wgLat, $wgLon , &$mgLat , &$mgLon)
+	function transform($wgLat, $wgLon , &$mgLat , &$mgLon)
 	{
 		if (outOfChina($wgLat,$wgLon))
 		{
@@ -359,7 +359,7 @@ class MisMeetService {
 		$mgLon =$wgLon + $dLon;
 	}
 	
-	private function outOfChina($lat, $lon)
+	function outOfChina($lat, $lon)
 	{
 		if ($lon < 72.004 || $lon > 137.8347)
 			return true;
@@ -368,7 +368,7 @@ class MisMeetService {
 		return false;
 	}
 	
-	private function transformLat($x, $y)
+	function transformLat($x, $y)
 	{
 		$ret = -100.0 + 2.0 * $x + 3.0 * $y + 0.2 * $y * $y + 0.1 * $x * $y + 0.2 * sqrt(abs($x));
 		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
@@ -377,7 +377,7 @@ class MisMeetService {
 		return $ret;
 	}
 	
-	private function transformLon($x, $y)
+	function transformLon($x, $y)
 	{
 		$ret = 300.0 + $x + 2.0 * $y + 0.1 * $x * $x + 0.1 * $x * $y + 0.1 * sqrt(abs($x));
 		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
