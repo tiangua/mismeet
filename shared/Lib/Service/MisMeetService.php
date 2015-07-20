@@ -341,26 +341,25 @@ class MisMeetService {
 		$a = 6378245.0;
 		$ee = 0.00669342162296594323;
 		
-		if ($this->outOfChina($wgLat,$wgLon))
-		{
-			$mgLat =$wgLat;
-			$mgLon =$wgLon;
+		if ($this->outOfChina ( $wgLat, $wgLon )) {
+			$mgLat = $wgLat;
+			$mgLon = $wgLon;
 			return;
 		}
-		$dLat = $this->transformLat(wgLon - 105.0,$wgLat - 35.0);
-		$dLon = $this->transformLon(wgLon - 105.0,$wgLat - 35.0);
-		$radLat =$wgLat / 180.0 *$pi;
-		$magic = sin($radLat);
-		$magic = 1 - $ee *$magic *$magic;
-		$sqrtMagic = sqrt($magic);
+		
+		$dLat = $this->transformLat ( $wgLon - 105.0, $wgLat - 35.0 );
+		$dLon = $this->transformLon ( $wgLon - 105.0, $wgLat - 35.0 );
+		$radLat = $wgLat / 180.0 * $pi;
+		$magic = sin ( $radLat );
+		$magic = 1 - $ee * $magic * $magic;
+		$sqrtMagic = sqrt ( $magic );
 		$dLat = ($dLat * 180.0) / (($a * (1 - $ee)) / ($magic * $sqrtMagic) * $pi);
-		$dLon = ($dLon * 180.0) / ($a / $sqrtMagic * cos($radLat) *$pi);
-		$mgLat =$wgLat + $dLat;
-		$mgLon =$wgLon + $dLon;
+		$dLon = ($dLon * 180.0) / ($a / $sqrtMagic * cos ( $radLat ) * $pi);
+		$mgLat = $wgLat + $dLat;
+		$mgLon = $wgLon + $dLon;
 	}
 	
-	function outOfChina($lat, $lon)
-	{
+	function outOfChina($lat, $lon) {
 		if ($lon < 72.004 || $lon > 137.8347)
 			return true;
 		if ($lat < 0.8293 || $lat > 55.8271)
@@ -368,27 +367,25 @@ class MisMeetService {
 		return false;
 	}
 	
-	function transformLat($x, $y)
-	{
+	function transformLat($x, $y) {
 		$pi = 3.14159265358979324;
 		$a = 6378245.0;
 		$ee = 0.00669342162296594323;
-		$ret = -100.0 + 2.0 * $x + 3.0 * $y + 0.2 * $y * $y + 0.1 * $x * $y + 0.2 * sqrt(abs($x));
-		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
-		$ret += (20.0 * sin($y *$pi) + 40.0 * sin($y / 3.0 *$pi)) * 2.0 / 3.0;
-		$ret += (160.0 * sin($y / 12.0 *$pi) + 320 * sin($y *$pi / 30.0)) * 2.0 / 3.0;
+		$ret = - 100.0 + 2.0 * $x + 3.0 * $y + 0.2 * $y * $y + 0.1 * $x * $y + 0.2 * sqrt ( abs ( $x ) );
+		$ret += (20.0 * sin ( 6.0 * $x * $pi ) + 20.0 * sin ( 2.0 * $x * $pi )) * 2.0 / 3.0;
+		$ret += (20.0 * sin ( $y * $pi ) + 40.0 * sin ( $y / 3.0 * $pi )) * 2.0 / 3.0;
+		$ret += (160.0 * sin ( $y / 12.0 * $pi ) + 320 * sin ( $y * $pi / 30.0 )) * 2.0 / 3.0;
 		return $ret;
 	}
 	
-	function transformLon($x, $y)
-	{
+	function transformLon($x, $y) {
 		$pi = 3.14159265358979324;
 		$a = 6378245.0;
 		$ee = 0.00669342162296594323;
-		$ret = 300.0 + $x + 2.0 * $y + 0.1 * $x * $x + 0.1 * $x * $y + 0.1 * sqrt(abs($x));
-		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
-		$ret += (20.0 * sin($x *$pi) + 40.0 * sin($x / 3.0 *$pi)) * 2.0 / 3.0;
-		$ret += (150.0 * sin($x / 12.0 *$pi) + 300.0 * sin($x / 30.0 *$pi)) * 2.0 / 3.0;
+		$ret = 300.0 + $x + 2.0 * $y + 0.1 * $x * $x + 0.1 * $x * $y + 0.1 * sqrt ( abs ( $x ) );
+		$ret += (20.0 * sin ( 6.0 * $x * $pi ) + 20.0 * sin ( 2.0 * $x * $pi )) * 2.0 / 3.0;
+		$ret += (20.0 * sin ( $x * $pi ) + 40.0 * sin ( $x / 3.0 * $pi )) * 2.0 / 3.0;
+		$ret += (150.0 * sin ( $x / 12.0 * $pi ) + 300.0 * sin ( $x / 30.0 * $pi )) * 2.0 / 3.0;
 		return $ret;
 	}
 		
