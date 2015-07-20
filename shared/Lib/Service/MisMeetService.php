@@ -315,7 +315,7 @@ class MisMeetService {
 	function getNameByPos($lng , $lat){
 		$mgLat = 0;
 		$mgLon = 0;
-		transform($lat, $lng , $mgLat , $mgLon);
+		$this->transform($lat, $lng , $mgLat , $mgLon);
 		print_r($lng . "," . $lat . ";" . $mgLon . "," . $mgLat);
 		
 		$url = 'http://restapi.amap.com/v3/geocode/regeo?output=json&key=89058ab2164059b1bae34ece5ac36f02&location='.$lng.','.$lat;
@@ -341,14 +341,14 @@ class MisMeetService {
 	// World Geodetic System ==> Mars Geodetic System
 	function transform($wgLat, $wgLon , &$mgLat , &$mgLon)
 	{
-		if (outOfChina($wgLat,$wgLon))
+		if ($this->outOfChina($wgLat,$wgLon))
 		{
 			$mgLat =$wgLat;
 			$mgLon =$wgLon;
 			return;
 		}
-		$dLat = transformLat(wgLon - 105.0,$wgLat - 35.0);
-		$dLon = transformLon(wgLon - 105.0,$wgLat - 35.0);
+		$dLat = $this->transformLat(wgLon - 105.0,$wgLat - 35.0);
+		$dLon = $this->transformLon(wgLon - 105.0,$wgLat - 35.0);
 		$radLat =$wgLat / 180.0 *$pi;
 		$magic = sin($radLat);
 		$magic = 1 - $ee *$magic *$magic;
