@@ -316,9 +316,9 @@ class MisMeetService {
 		$mgLat = 0;
 		$mgLon = 0;
 		$this->transform($lat, $lng , $mgLat , $mgLon);
-		print_r($lng . "," . $lat . ";" . $mgLon . "," . $mgLat);
+// 		print_r($lng . "," . $lat . ";" . $mgLon . "," . $mgLat);
 		
-		$url = 'http://restapi.amap.com/v3/geocode/regeo?output=json&key=89058ab2164059b1bae34ece5ac36f02&location='.$lng.','.$lat;
+		$url = 'http://restapi.amap.com/v3/geocode/regeo?output=json&key=89058ab2164059b1bae34ece5ac36f02&location='.$mgLon.','.$mgLat;
 		$ch = curl_init($url);
 		
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
