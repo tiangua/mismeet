@@ -19,6 +19,8 @@ CREATE TABLE `user_profile` (
   `is_male` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否男1是0不是',
   `want_male` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '取向男1是0不是',
   `is_heart` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '是否兴奋状态1是0不是',
+  `is_uber` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否Uber会员',
+  `uber_desc` varchar(128) DEFAULT NULL COMMENT 'Uber车型',
   `flag` int(10) unsigned DEFAULT '0' COMMENT '标记',
   `memo` varchar(1024) DEFAULT NULL COMMENT '备注',
   `gmt_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

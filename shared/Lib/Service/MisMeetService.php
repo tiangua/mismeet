@@ -93,6 +93,8 @@ class MisMeetService {
 					if (array_key_exists("is_male",$objArray)) $userProfile->setIsMale($objArray["is_male"]);
 					if (array_key_exists("want_male",$objArray)) $userProfile->setWantMale($objArray["want_male"]);
 					if (array_key_exists("is_heart",$objArray)) $userProfile->setIsHeart($objArray["is_heart"]);
+					if (array_key_exists("is_uber",$objArray)) $userProfile->setIsUber($objArray["is_uber"]);
+					if (array_key_exists("uber_desc",$objArray)) $userProfile->setUberDesc($objArray["uber_desc"]);
 					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
 					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userProfile->setGmtModified(date("Y-m-d H:i:s",time()));
@@ -117,6 +119,8 @@ class MisMeetService {
 					$userProfile->setIsMale($this->getJsonValue($objArray,"is_male"));
 					$userProfile->setWantMale($this->getJsonValue($objArray,"want_male"));
 					$userProfile->setIsHeart($this->getJsonValue($objArray,"is_heart"));
+					$userProfile->setIsUber($this->getJsonValue($objArray,"is_uber"));
+					if (array_key_exists("uber_desc",$objArray)) $userProfile->setUberDesc($objArray["uber_desc"]);
 					if (array_key_exists("flag",$objArray)) $userProfile->setFlag($objArray["flag"]);
 					if (array_key_exists("memo",$objArray)) $userProfile->setProHobbies($objArray["memo"]);
 					$userProfile->setGmtCreate(date("Y-m-d H:i:s",time()));

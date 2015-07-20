@@ -16,7 +16,7 @@ use OK\PhalconEnhance\MvcBase\ModelBase;
 class UserProfile extends ModelBase
 {
 
-    /**
+     /**
      *
      * @var integer
      */
@@ -123,6 +123,18 @@ class UserProfile extends ModelBase
      * @var string
      */
     protected $gmt_modified;
+
+    /**
+     *
+     * @var integer
+     */
+    protected $is_uber;
+
+    /**
+     *
+     * @var string
+     */
+    protected $uber_desc;
 
     /**
      * Method to set the value of field id
@@ -359,6 +371,32 @@ class UserProfile extends ModelBase
     }
 
     /**
+     * Method to set the value of field is_uber
+     *
+     * @param integer $is_uber
+     * @return $this
+     */
+    public function setIsUber($is_uber)
+    {
+        $this->is_uber = $is_uber;
+
+        return $this;
+    }
+
+    /**
+     * Method to set the value of field uber_desc
+     *
+     * @param string $uber_desc
+     * @return $this
+     */
+    public function setUberDesc($uber_desc)
+    {
+        $this->uber_desc = $uber_desc;
+
+        return $this;
+    }
+
+    /**
      * Returns the value of field id
      *
      * @return integer
@@ -538,9 +576,24 @@ class UserProfile extends ModelBase
         return $this->gmt_modified;
     }
 
-    public function getSource()
+    /**
+     * Returns the value of field is_uber
+     *
+     * @return integer
+     */
+    public function getIsUber()
     {
-        return 'user_profile';
+        return $this->is_uber;
+    }
+
+    /**
+     * Returns the value of field uber_desc
+     *
+     * @return string
+     */
+    public function getUberDesc()
+    {
+        return $this->uber_desc;
     }
 
     /**
@@ -566,7 +619,9 @@ class UserProfile extends ModelBase
             'flag' => 'flag', 
             'memo' => 'memo', 
             'gmt_create' => 'gmt_create', 
-            'gmt_modified' => 'gmt_modified'
+            'gmt_modified' => 'gmt_modified', 
+            'is_uber' => 'is_uber', 
+            'uber_desc' => 'uber_desc'
         );
     }
 
