@@ -330,17 +330,17 @@ class MisMeetService {
 		return $result->regeocode->formatted_address;
 	}
 	
-	static $pi = 3.14159265358979324;
-	// a = 6378245.0, 1/f = 298.3
-	// b = a * (1 - f)
-	// ee = (a^2 - b^2) / a^2;
-	static $a = 6378245.0;
-	static $ee = 0.00669342162296594323;
-	
 	//
 	// World Geodetic System ==> Mars Geodetic System
 	function transform($wgLat, $wgLon , &$mgLat , &$mgLon)
 	{
+		$pi = 3.14159265358979324;
+		// a = 6378245.0, 1/f = 298.3
+		// b = a * (1 - f)
+		// ee = (a^2 - b^2) / a^2;
+		$a = 6378245.0;
+		$ee = 0.00669342162296594323;
+		
 		if ($this->outOfChina($wgLat,$wgLon))
 		{
 			$mgLat =$wgLat;
@@ -353,7 +353,7 @@ class MisMeetService {
 		$magic = sin($radLat);
 		$magic = 1 - $ee *$magic *$magic;
 		$sqrtMagic = sqrt($magic);
-		$dLat = ($dLat * 180.0) / (($a * (1 - $ee)) / ($magic * $sqrtMagic) *$pi);
+		$dLat = ($dLat * 180.0) / (($a * (1 - $ee)) / ($magic * $sqrtMagic) * $pi);
 		$dLon = ($dLon * 180.0) / ($a / $sqrtMagic * cos($radLat) *$pi);
 		$mgLat =$wgLat + $dLat;
 		$mgLon =$wgLon + $dLon;
@@ -370,6 +370,9 @@ class MisMeetService {
 	
 	function transformLat($x, $y)
 	{
+		$pi = 3.14159265358979324;
+		$a = 6378245.0;
+		$ee = 0.00669342162296594323;
 		$ret = -100.0 + 2.0 * $x + 3.0 * $y + 0.2 * $y * $y + 0.1 * $x * $y + 0.2 * sqrt(abs($x));
 		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
 		$ret += (20.0 * sin($y *$pi) + 40.0 * sin($y / 3.0 *$pi)) * 2.0 / 3.0;
@@ -379,6 +382,9 @@ class MisMeetService {
 	
 	function transformLon($x, $y)
 	{
+		$pi = 3.14159265358979324;
+		$a = 6378245.0;
+		$ee = 0.00669342162296594323;
 		$ret = 300.0 + $x + 2.0 * $y + 0.1 * $x * $x + 0.1 * $x * $y + 0.1 * sqrt(abs($x));
 		$ret += (20.0 * sin(6.0 * $x *$pi) + 20.0 * sin(2.0 * $x *$pi)) * 2.0 / 3.0;
 		$ret += (20.0 * sin($x *$pi) + 40.0 * sin($x / 3.0 *$pi)) * 2.0 / 3.0;
