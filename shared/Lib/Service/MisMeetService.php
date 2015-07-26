@@ -110,7 +110,7 @@ class MisMeetService {
 					$userProfile->setProSign($this->getJsonValue($objArray,"pro_sign"));
 					$userProfile->setProPhoto($this->getJsonValue($objArray,"pro_photo"));
 					$userProfile->setUserNick($this->getJsonValue($objArray,"user_nick"));
-					$userProfile->setUserPhotos($this->getJsonValue($objArray,"user_photos"));
+					if (array_key_exists("user_photos",$objArray)) $userProfile->setUserPhotos($objArray["user_photos"]);
 					$userProfile->setBirthDate($this->getJsonValue($objArray,"birth_date"));
 					$userProfile->setProHeight($this->getJsonValue($objArray,"pro_height"));
 					$userProfile->setProWeight($this->getJsonValue($objArray,"pro_weight"));
