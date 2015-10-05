@@ -304,6 +304,37 @@ class MisMeetService {
 				$token = $auth->uploadToken ( $bucket );
 				$resStr = $token;
 			}
+			
+			if ($operation == "report"){
+				$userId = $this->getJsonValue($objArray,"user_id");
+				$targetUserId = $this->getJsonValue($objArray,"target_user_id");
+				if ($userId < 1 || $targetUserId < 1) return new ServiceResultDO(false, MisMeetErrorEnum::PARAM_NOUSERID_ERROR);
+				$userDig = UserDig::findByTargetAndUserId($userId, $targetUserId);
+				if ($userDig){
+					// find do update
+					$userDig->setFlag(1);
+					$userDig->setDigType(99);	// 操作类型设定为举报
+					$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userDig->update()){
+						$resStr =  "report user " .$targetUserId. " success!";
+					}else{
+						$resStr = "report user " .$targetUserId. " failed!";
+					}
+				}else{
+					$userDig = new UserDig();
+					$userDig->setUserId($userId); // 操作者
+					$userDig->setDigUserid($targetUserId);	// 操作目标
+					$userDig->setDigType(99);	// 操作类型 定为喜欢相关
+					$userDig->setFlag(1);
+					$userDig->setGmtCreate(date("Y-m-d H:i:s",time()));
+					$userDig->setGmtModified(date("Y-m-d H:i:s",time()));
+					if ($userDig->create()){
+						$resStr = "report user " .$targetUserId. " success!";
+					}else{
+						$resStr = "report user " .$targetUserId. " failed!";
+					}
+				}
+			}
 		} else {
 			return new ServiceResultDO ( false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
 		}
