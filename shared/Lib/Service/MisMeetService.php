@@ -334,6 +334,8 @@ class MisMeetService {
 						$resStr = "report user " .$targetUserId. " failed!";
 					}
 				}
+				// send email
+				$this->SendReportEmail("user". $userId . " " . $resStr);
 			}
 		} else {
 			return new ServiceResultDO ( false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
@@ -456,5 +458,23 @@ class MisMeetService {
 		$xtile = floor((($f_lon + 180) / 360) * pow(2, $zoom));
 		$ytile = floor((1 - log(tan(deg2rad($f_lat)) + 1 / cos(deg2rad($f_lat))) / pi()) /2 * pow(2, $zoom));
 		return $xtile.'_'.$ytile.'_'.$zoom;
+	}
+	
+	// send for email notification
+	function SendReportEmail($reportInfo)
+	{
+		$mailer = new PHPMailer();
+	
+		$mailer->CharSet = 'utf-8';
+	
+		$mailer->AddAddress("louche@taobao.com", "louche");
+	
+		$mailer->Subject = "notice for report";
+	
+		$mailer->From = "king-pig@yeah.net";
+	
+		$mailer->Body ="Here is report : " + $reportInfo;
+		
+		return $mailer->Send();
 	}
 }
