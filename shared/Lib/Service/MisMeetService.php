@@ -334,8 +334,8 @@ class MisMeetService {
 						$resStr = "report user " .$targetUserId. " failed!";
 					}
 				}
-				// send email
-				$this->SendReportEmail("user". $userId . " " . $resStr);
+				// send msg
+				$this->sendMsg();
 			}
 		} else {
 			return new ServiceResultDO ( false, MisMeetErrorEnum::PARAM_NOTJSON_ERROR);
@@ -476,5 +476,18 @@ class MisMeetService {
 		$mailer->Body ="Here is report : " + $reportInfo;
 		
 		return $mailer->Send();
+	}
+	
+	// use baichuan send msg
+	function sendMsg(){
+		$url = 'http://tiangua.wx.jaeapp.com/webproj/msg/send';
+		$ch = curl_init($url);
+	
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	
+		$response = curl_exec($ch);
+		$result = json_decode($response);
 	}
 }
